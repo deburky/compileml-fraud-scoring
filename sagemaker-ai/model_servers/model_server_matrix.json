@@ -1,0 +1,154 @@
+[
+  {
+    "server": "TORCHSERVE",
+    "build": "ok",
+    "staged": [
+      "code/inference.py",
+      "code/insurance_fraud.json",
+      "code/metadata.json",
+      "code/requirements.txt",
+      "code/serve.pkl",
+      "insurance_fraud.json"
+    ],
+    "containers": [
+      {
+        "name": "vibrant_mayer",
+        "cmd": "serve",
+        "ports": {
+          "8080/tcp": "8080"
+        },
+        "mounts": [
+          "compileml-torchserve-cg0zkfsi->/opt/ml/model"
+        ],
+        "sm_env": {
+          "SAGEMAKER_SUBMIT_DIRECTORY": "",
+          "SAGEMAKER_PROGRAM": "",
+          "ARTIFACT_PATH": "/opt/ml/model/insurance_fraud.json",
+          "SAGEMAKER_CONTAINER_LOG_LEVEL": "20",
+          "SAGEMAKER_REGION": "us-east-1"
+        }
+      }
+    ],
+    "invoke": "ok G04/1.0, G04/1.0, G04/0.212941",
+    "seconds": 26.2
+  },
+  {
+    "server": "MMS",
+    "build": "ok",
+    "staged": [
+      "code/inference.py",
+      "code/insurance_fraud.json",
+      "code/metadata.json",
+      "code/requirements.txt",
+      "code/serve.pkl",
+      "insurance_fraud.json"
+    ],
+    "containers": [
+      {
+        "name": "ecstatic_shaw",
+        "cmd": "serve",
+        "ports": {
+          "8080/tcp": "8080"
+        },
+        "mounts": [
+          "code->/opt/ml/model"
+        ],
+        "sm_env": {
+          "ARTIFACT_PATH": "/opt/ml/model/insurance_fraud.json",
+          "SAGEMAKER_PROGRAM": "inference.py",
+          "SAGEMAKER_SUBMIT_DIRECTORY": "/opt/ml/model/code",
+          "SAGEMAKER_CONTAINER_LOG_LEVEL": "20",
+          "SAGEMAKER_REGION": "us-east-1"
+        }
+      }
+    ],
+    "invoke": "ok G04/1.0, G04/1.0, G04/0.212941",
+    "seconds": 26.2
+  },
+  {
+    "server": "TENSORFLOW_SERVING",
+    "build": "FAIL ValueError: Tensorflow Serving is currently only supported for mlflow models.",
+    "staged": [],
+    "containers": [],
+    "invoke": "",
+    "seconds": 0.0
+  },
+  {
+    "server": "DJL_SERVING",
+    "build": "FAIL ValueError: For djl-serving, sample input must be of {\"inputs\": str, \"parameters\": dict}, sample output must be of [{\"generated_text\": str,}]",
+    "staged": [],
+    "containers": [],
+    "invoke": "",
+    "seconds": 0.0
+  },
+  {
+    "server": "TRITON",
+    "build": "FAIL ValueError: Unable to update input serializer and deserializer for type <class 'dict'> for Triton. Please provide sample_input of the following type: {'ndarray', 'torch', 'tensorflow'} to SchemaBuilder.",
+    "staged": [],
+    "containers": [],
+    "invoke": "",
+    "seconds": 0.1
+  },
+  {
+    "server": "TGI",
+    "build": "FAIL ValueError: For tgi, sample input must be of {\"inputs\": str, \"parameters\": dict}, sample output must be of [{\"generated_text\": str,}]",
+    "staged": [],
+    "containers": [],
+    "invoke": "",
+    "seconds": 0.0
+  },
+  {
+    "server": "TEI",
+    "build": "ok",
+    "staged": [],
+    "containers": [],
+    "invoke": "FAIL APIError: 500 Server Error for http+docker://localhost/v1.55/containers/126e18cefacc7bf2666e1a9f16730d2c80189791bc095a9b7bf496d55de31d78/start: Internal Server Error (\"failed to discover GPU vendor from CDI: no",
+    "seconds": 0.5
+  },
+  {
+    "server": "SMD",
+    "build": "ok",
+    "staged": [
+      "code/insurance_fraud.json",
+      "code/metadata.json",
+      "code/requirements.txt",
+      "code/serve.pkl",
+      "insurance_fraud.json"
+    ],
+    "containers": [],
+    "invoke": "FAIL AttributeError: 'NoneType' object has no attribute 'logs'",
+    "seconds": 10.3
+  },
+  {
+    "server": "VLLM",
+    "build": "ok",
+    "staged": [],
+    "containers": [],
+    "invoke": "FAIL AttributeError: 'NoneType' object has no attribute 'logs'",
+    "seconds": 10.4
+  },
+  {
+    "server": "SGLANG",
+    "build": "ok",
+    "staged": [],
+    "containers": [],
+    "invoke": "FAIL AttributeError: 'NoneType' object has no attribute 'logs'",
+    "seconds": 10.3
+  },
+  {
+    "server": "VLLM_OMNI",
+    "build": "ok",
+    "staged": [],
+    "containers": [],
+    "invoke": "FAIL AttributeError: 'NoneType' object has no attribute 'logs'",
+    "seconds": 10.4
+  },
+  {
+    "server": "LLAMACPP",
+    "build": "ok",
+    "staged": [],
+    "containers": [],
+    "invoke": "FAIL AttributeError: 'NoneType' object has no attribute 'logs'",
+    "seconds": 10.3
+  }
+]
