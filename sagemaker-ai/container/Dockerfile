@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_NO_CACHE_DIR=1
 WORKDIR /opt/program
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir --no-deps compileml==0.4.3
+    && pip install --no-cache-dir --no-deps compileml==0.8.0
 
 COPY serve.py entrypoint.sh ./
 RUN chmod +x entrypoint.sh

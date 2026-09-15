@@ -1,4 +1,4 @@
-# compileml 0.4.3 — test notes (2026-09-04)
+# compileml 0.4.3 — test notes (2026-09-04; upstream status as of 0.8.0 at the end)
 
 Environment: macOS, Python 3.12.12, numpy 1.26.4, scikit-learn 1.7.2, CatBoost 1.2.10
 as teacher. Data: AWS Fraud Detector samples (`data/`).
@@ -90,3 +90,36 @@ as teacher. Data: AWS Fraud Detector samples (`data/`).
   compileml integer latent rank-correlate at 0.94; top-1 risk driver agrees on 63% of
   rows, compileml's top-1 is in xbooster's top-3 on 72%. Baselines differ (SHAP
   expected value vs. median row), so full agreement is not expected.
+
+## Upstream status (compileml 0.8.0, checked 2026-09-15)
+
+The notes above were written against 0.4.3. In the following week the project went
+0.5.0 → 0.8.0 and cited this evaluation ([README "Independent evaluation"](https://github.com/orgoca/CompileML#independent-evaluation),
+`docs/concepts/where-it-fits.md`, changelog 0.5.2). Status of the seven items:
+
+| # | item | status |
+| --- | --- | --- |
+| 1 | `export_sql` invalid SQL for a one-band artifact | fixed in 0.5.0 ([#40](https://github.com/orgoca/CompileML/issues/40), PR by @tote10): emits the label directly |
+| 2 | quantile band builders emit colliding edges | fixed in 0.5.0 ([#41](https://github.com/orgoca/CompileML/issues/41)): builders take `scale=`, drop edges that would collide, return fewer bands and record `metadata["requested_n_bands"]`. The step-K-down workaround in `02` is no longer needed. |
+| 3 | circular "distill margin-space models" warning | fixed in 0.5.2: reads the range, names overshoot vs margin scale |
+| 4 | `semantic_bands` dead-ends silently on one band | fixed in 0.5.2: warns, points at `monotone_quantile_bands` / `min_band_size`; `flags.no_discrete_classes` stays the machine signal |
+| 5 | depth-2 scorecard is mostly interaction grids | 0.5.2 docs: README and tuning guide set the expectation; `max_depth=1` is the classic form |
+| 6 | `recalibrate_artifact` lineage key | 0.5.2: docstring now says `metadata.recalibration.recalibrated_from`; key unchanged |
+| 7 | xgboost extra needs libomp on Apple Silicon | 0.5.2: README note |
+
+Also shipped since: per-tree exact attribution (0.5.0), `compileml.fairness` (0.5.0),
+`compileml.monitor` (0.6.0), reason codes and PD in the SQL and COBOL exports with
+`explain=True` (0.7.0), `retention_by_segment` and `sample_weight` (0.8.0).
+
+Rerun of scripts 01–04 on 0.8.0 (this repo bumped to `compileml>=0.8.0`): every check
+passes, same Gini figures, scorecard and SQL parity still 0 mismatches. What changed:
+
+- artifact hash: `compileml_version`, `bands.requested_n_bands` and `bands.scale` now enter
+  the hashed document, so the rebuilt `insurance_fraud.json` hashes `8a9bae69bb72…` instead
+  of `266752582d53…`; model bytes and band edges are unchanged.
+- full-explanation timing in `03`: 0.25 ms median per row, from 0.7 ms on 0.4.3 (per-tree
+  attribution). Score-only still 0.012 ms.
+- API: every function the scripts call keeps its signature; new keyword arguments only.
+  Artifact schema still 2, so 0.4.3 artifacts load and score under 0.8.0.
+- the BYOC image (`sagemaker-ai/container`) rebuilt on 0.8.0 returns rows identical to
+  `03`'s decisions CSV.

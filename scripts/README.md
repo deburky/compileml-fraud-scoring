@@ -43,7 +43,10 @@ Notes
 - The teacher is CatBoost in both scripts. CompileML can only *compile* sklearn,
   XGBoost, and LightGBM trees, but the teacher can be anything: only its
   predicted probabilities are used, via `train_whitebox`.
-- xgboost needs `libomp` on Apple Silicon (`brew install libomp`, done 2026-09-04).
+- xgboost needs `libomp` on Apple Silicon (`brew install libomp`, done 2026-09-04); noted in
+  compileml's README since 0.5.2.
+- The repo tracks compileml 0.8.0 (bumped 2026-09-15); `FINDINGS.md` ends with the upstream
+  status of every item reported against 0.4.3.
   lightgbm is not installed.
 - xbooster: `import xbooster` fails outright when xgboost is installed but its
   shared library cannot load. `_try_import` in `xbooster/shap_scorecard.py` catches

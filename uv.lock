@@ -540,15 +540,15 @@ wheels = [
 
 [[package]]
 name = "compileml"
-version = "0.4.3"
+version = "0.8.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "scikit-learn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d3/22/b74d1520b9e9fc737fd6eabb4f8bcd86ec6a812ae8a850fc1bc8babbe1ba/compileml-0.4.3.tar.gz", hash = "sha256:65d74f9b708080a877654226d12053244550d452a94f59deb3950cdd839ed077", size = 112709, upload-time = "2026-09-02T03:39:33.423Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/ed/e0fda73babac26f5ca8c811144ec68c81bfc6fc8816ce3154d12587b8ae1/compileml-0.8.0.tar.gz", hash = "sha256:f4d04b8e85c196acb77b473abd82bd002050ea18534c87239c6c05c17faef2e1", size = 159770, upload-time = "2026-09-14T02:37:04.917Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/15/f8/5b0789006259324959b468079aa3de4ce9f8e002c5a3054783f1e78503fb/compileml-0.4.3-py3-none-any.whl", hash = "sha256:4fedaea389604c3c2e6bb836b52bbd887144ce7fea8c0d2aa8484612cd072b2d", size = 99048, upload-time = "2026-09-02T03:39:31.814Z" },
+    { url = "https://files.pythonhosted.org/packages/9d/a6/952ee224804df1fc234143cb932eb4ee847d50b2a18337c28cbc0c0a55b4/compileml-0.8.0-py3-none-any.whl", hash = "sha256:d0d62317a45c1ab93ddf484e1aa5bcce0a22741323de13d19aa448cab3e47129", size = 135717, upload-time = "2026-09-14T02:37:03.429Z" },
 ]
 
 [[package]]
@@ -585,7 +585,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "catboost", specifier = ">=1.2.10" },
-    { name = "compileml", specifier = ">=0.4.3" },
+    { name = "compileml", specifier = ">=0.8.0" },
     { name = "fastwoe", specifier = ">=0.1.8" },
     { name = "matplotlib", specifier = ">=3.11.1" },
     { name = "mlflow", specifier = "==3.10.1" },
