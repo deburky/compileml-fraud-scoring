@@ -112,7 +112,24 @@ Also shipped since: per-tree exact attribution (0.5.0), `compileml.fairness` (0.
 `explain=True` (0.7.0), `retention_by_segment` and `sample_weight` (0.8.0).
 
 Rerun of scripts 01–04 on 0.8.0 (this repo bumped to `compileml>=0.8.0`): every check
-passes, same Gini figures, scorecard and SQL parity still 0 mismatches. What changed:
+passes, continuous Gini and retention unchanged, scorecard and SQL parity still 0
+mismatches. The fixes do change the analyses that went through the workarounds:
+
+- **Insurance band ladder (bug 2).** On 0.4.3 the step-K-down workaround landed on
+  4 bands (edges `[0, 0.0018, 0.0137, 0.0363, 1]`, band-ordinal Gini 0.798, banding gap
+  16.5%) because every wider ladder collided at the zero edge. On 0.8.0 the builder drops
+  that edge itself and the widest clean ladder is 6 bands (edges
+  `[0, 0.0018, 0.0076, 0.0212, 0.0363, 0.0746, 1]`, band-ordinal Gini 0.876, gap 8.3%).
+  Band labels shift accordingly: the top band is now `G06`, not `G04`, and `03`'s counts
+  are `{G01: 502, G02: 227, G03: 519, G04: 252, G05: 234, G06: 266}` instead of four near
+  quartiles. Latent, PD and reason codes per row are unchanged (row 0 is still latent
+  1000, PD 1.0, `VEHICLES|VEHICLE_AMOUNT|INJURY_AMOUNT`).
+- **Transaction ladder.** `semantic_bands` still certifies one band and now says so; the
+  fixed-K=10 monotone-quantile ladder is unchanged (band-ordinal 0.807, gap 2.1%), and
+  recalibration on the later window still leaves model bytes and band edges identical.
+- The pre-executed notebooks were re-run on 0.8.0 so their saved outputs match.
+
+Other differences:
 
 - artifact hash: `compileml_version`, `bands.requested_n_bands` and `bands.scale` now enter
   the hashed document, so the rebuilt `insurance_fraud.json` hashes `8a9bae69bb72…` instead
